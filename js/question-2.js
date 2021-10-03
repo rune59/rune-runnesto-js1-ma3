@@ -32,7 +32,7 @@ async function getRawgVideos() {
             }
             console.log("Number of tags: " + numberOfTags);
 
-            if (i === 10) {
+            if (i === 8) {
                 break;
             }
 
