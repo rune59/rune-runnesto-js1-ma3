@@ -3,52 +3,56 @@
 
 
 const API_URL = "https://api.rawg.io/api/games?dates=2019-01-01,2019-12-31&ordering=-rating&key=";
-
 const API_KEY = "6a293b5c159f4bdf88f739120bd3aa6d";
-
 const url = API_URL + API_KEY;
 
+const resultsContainer = document.querySelector(".results");
 
-async function callRawg() {
+async function getRawgVideos() {
     try {
+        // fetch
         const response = await fetch(url);
-        const results = await response.json();
-        console.log(results); 
-        const data = results;
-        let html = "";
+        // console.log(response);
+        const dataObject = await response.json();
+        console.log(dataObject);
+        const dataResults = dataObject.results; 
+        console.log("dataResults.length:" + dataResults.length);
+        console.log(dataResults);
         resultsContainer.innerHTML = "";
-        let numberOfTags = 0; 
-        for (let i = 0; i < data.length; i++) {
-            if (i < 8) {
-                let name = data[i].name;
-                let rating = data[i].rating; 
-                console.log(data[i].name);
-                console.log(data[i].rating);
-                let tags = data[i].tags.length; 
-                for (let j = 0; j < tags.length; j++){
-                    numberOfTags++;
-                }
-                // console.log(numberOfTags);
-                html +=`<div>
-                            <p></p>
-                            <h5>Name: ${name}</h5>
-                            <p>Rating: ${rating}</p>
-                            <p>Number of tags: ${numberOfTags}</p>
-                            <p></p>
-                        </div>`;
+
+        for (let i = 0; i < dataResults.length; i++) {
+            console.log(dataResults[i].name);
+            console.log(dataResults[i].rating);
+            let tagsResults = 0; 
+            tagsResults = dataResults[i].tags;
+            console.log("tagsResults:" + tagsResults);
+            let numberOfTags = 0;
+            for (let j = 0; j < tagsResults.length; j++){
+                numberOfTags++;
             }
+            console.log("Number of tags: " + numberOfTags);
+
+            if (i === 10) {
+                break;
+            }
+
+            resultsContainer.innerHTML +=
+                `<div class="result">
+                    Name: ${dataResults[i].name}
+                    <p><p/>
+                    Rating: ${dataResults[i].rating}
+                    <p><p/>
+                    Number of tags: ${numberOfTags}
+                </div>`;
         }
-        return html;
+      
     } catch (error) {
         console.log("An error occurred");
         console.log(error);
     } finally {
         console.log("This will run whether there is an error or not");
     }
+
 }
 
-const newHtml = callRawg();
-const resultsContainer = document.querySelector(".results");
-resultsContainer.innerHTML = newHtml;
-
-
+getRawgVideos();
