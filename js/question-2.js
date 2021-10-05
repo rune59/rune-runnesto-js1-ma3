@@ -35,7 +35,6 @@ async function getRawgVideos() {
             if (i === 8) {
                 break;
             }
-
             resultsContainer.innerHTML +=
                 `<div class="result">
                     Name: ${dataResults[i].name}
@@ -44,6 +43,7 @@ async function getRawgVideos() {
                     <p><p/>
                     Number of tags: ${numberOfTags}
                 </div>`;
+            
         }
       
     } catch (error) {
